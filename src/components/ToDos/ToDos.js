@@ -7,13 +7,12 @@ const ToDos = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTodos())
+    dispatch(fetchTodos()) //вывод тудушек
   }, [])
 
   useEffect(() => {
-    dispatch(fetchCategories())
+    dispatch(fetchCategories()) //вывод категорий
   }, [])
-
     return (
         <div>
            {/*<ToDo id={*/}
