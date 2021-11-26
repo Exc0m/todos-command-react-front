@@ -1,6 +1,6 @@
 const initialState = {
     todo: [],
-    pending: false,
+    categories: []
 };
 
 export const reducer = (state = initialState, action) => {
