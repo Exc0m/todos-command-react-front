@@ -4,26 +4,56 @@ const initialState = {
 }
 
 export const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case "todo/fetch/fulfilled":
+  switch (action.type) {
+    case "todo/fetch/fulfilled":
+      return {
+        ...state,
+        todo: action.payload,
+      }
+    case "categories/fetch/fulfilled":
+      return {
+        ...state,
+        categories: action.payload,
+      }
+    case "todo/delete/fulfilled": //кейс для удаления тудушки
+      return {
+        ...state,
+        todo: state.todo.filter((item) => item.id !== action.payload),
+      }
+
+    case "todos/changing":
+      return {
+        ...state,
+        todo: state.todo.map((item) => {
+          if (item._id === action.payload) {
             return {
-                ...state,
-                todo: action.payload
+              ...item,
+              changing: true,
             }
-        case "categories/fetch/fulfilled":
+          }
+          return item
+        }),
+      }
+
+    case "todo/statusChange":
+      return {
+        ...state,
+        todo: state.todo.map((item) => {
+          if (item._id === action.payload.todoId) {
             return {
-                ...state,
-                categories: action.payload
+              ...item,
+              category: action.payload.catId,
+              changing: false,
             }
-        case "todo/delete/fulfilled": //кейс для удаления тудушки
-            return {
-                ...state,
-                todo: state.todo.filter((item) => item.id !== action.payload)
-            }
-        default: {
-            return state
-        }
+          }
+          return item
+        }),
+      }
+
+    default: {
+      return state
     }
+  }
 }
 
 export const fetchTodos = () => {
@@ -37,26 +67,46 @@ export const fetchTodos = () => {
 }
 
 export const fetchCategories = () => {
-    return (dispatch) => {
-        fetch("http://localhost:5000/categories")
-        .then((res) => res.json())
-        .then((data) => {
-            dispatch({type: "categories/fetch/fulfilled", payload: data})
-        })
-    }
+  return (dispatch) => {
+    fetch("http://localhost:5000/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: "categories/fetch/fulfilled", payload: data })
+      })
+  }
 }
 
-export const deleteTodo = (id) => {   // удаление тудушки
-    return (dispatch) => {
-        fetch(`http://localhost:5500/todos/${id}`, {
-            method: "DELETE"
+export const deleteTodo = (id) => {
+  // удаление тудушки
+  return (dispatch) => {
+    fetch(`http://localhost:5000/todos/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        dispatch({
+          type: "todo/delete/fulfilled",
+          payload: id,
         })
-        .then((res) => res.json())
-        .then((json) => {
-            dispatch({
-                type: "todo/delete/fulfilled",
-                payload: id
-            })
+      })
+  }
+}
+
+export const statusChange = (todoId, catId) => {
+  return (dispatch) => {
+    dispatch({ type: "todos/changing", payload: todoId })
+
+    fetch(`http://localhost:5000/todos/update/${todoId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category: catId }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: "todo/statusChange",
+          payload: { todoId, catId },
         })
-      }
+      })
+  }
 }
