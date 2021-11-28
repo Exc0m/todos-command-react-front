@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { statusChange } from "../../redux/features/ToDo"
 
 const ToDo = ({ id }) => {
+
+  const search = useSelector((state => state.search))
+
   const todos = useSelector((state) => state.todo)
   const categories = useSelector((state) => state.categories)
   const dispatch = useDispatch()
@@ -12,7 +15,7 @@ const ToDo = ({ id }) => {
   const handleChange = (todoId, catId) => dispatch(statusChange(todoId, catId))
 
   return todos.map((todo) =>
-    todo.category === id ? (
+    todo.category === id && (todo.text.toLowerCase().includes(search.toLowerCase()))? (
       <div className="row g-0 mb-1 " key={todo._id}>
         <div
           className={
@@ -115,6 +118,7 @@ const ToDo = ({ id }) => {
 
               {/* Кнопка для удаления(для Али) */}
               <span type="button" className="btn-outline-danger btn-sm ">
+
                 <i className="bi bi-trash" />
               </span>
             </div>
