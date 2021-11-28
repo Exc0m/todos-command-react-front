@@ -50,9 +50,6 @@ export const reducer = (state = initialState, action) => {
           return item
         }),
       }
-
-    default: {
-      return state
         case "todo/search/fulfilled":
             return {
                 ...state, search: action.payload
@@ -65,7 +62,6 @@ export const reducer = (state = initialState, action) => {
             return state
         }
     }
-  }
 }
 
 export const fetchTodos = () => {
@@ -93,7 +89,13 @@ export const deleteTodo = (id) => {   // удаление тудушки
         fetch(`http://localhost:6557/todos/${id}`, {
             method: "DELETE"
         })
-      })
+            .then((res) => res.json())
+            .then((data)=> {
+                dispatch({
+                    type: "todo/delete/fulfilled",
+                    payload: id
+                })
+            })
   }
 }
 
@@ -101,7 +103,7 @@ export const statusChange = (todoId, catId) => {
   return (dispatch) => {
     dispatch({ type: "todos/changing", payload: todoId })
 
-    fetch(`http://localhost:5000/todos/update/${todoId}`, {
+    fetch(`http://localhost:6557/todos/update/${todoId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ category: catId }),
