@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { statusChange } from "../../redux/features/ToDo"
+import {deleteTodo, statusChange} from "../../redux/features/ToDo"
 
 const ToDo = ({ id }) => {
 
@@ -13,6 +13,8 @@ const ToDo = ({ id }) => {
   const handleEdit = () => alert()
 
   const handleChange = (todoId, catId) => dispatch(statusChange(todoId, catId))
+
+  const handleDelete = (id) => dispatch(deleteTodo(id))
 
   return todos.map((todo) =>
     todo.category === id && (todo.text.toLowerCase().includes(search.toLowerCase()))? (
@@ -117,7 +119,11 @@ const ToDo = ({ id }) => {
               </div>
 
               {/* Кнопка для удаления(для Али) */}
-              <span type="button" className="btn-outline-danger btn-sm ">
+              <span
+                  type="button"
+                  className="btn-outline-danger btn-sm "
+                  onClick={() => handleDelete(todo._id)}
+              >
 
                 <i className="bi bi-trash" />
               </span>

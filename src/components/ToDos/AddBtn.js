@@ -17,6 +17,7 @@ const AddBtn = () => {
         },
         add: () => {
             dispatch(addToDo(newToDo))
+            setNewToDo({text: "", priority: 1})
         }
 
     }

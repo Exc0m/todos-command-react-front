@@ -19,7 +19,7 @@ export const reducer = (state = initialState, action) => {
     case "todo/delete/fulfilled": //кейс для удаления тудушки
       return {
         ...state,
-        todo: state.todo.filter((item) => item.id !== action.payload),
+        todo: state.todo.filter((item) => item._id !== action.payload),
       }
 
     case "todos/changing":
@@ -86,7 +86,7 @@ export const fetchCategories = () => {
 
 export const deleteTodo = (id) => {   // удаление тудушки
     return (dispatch) => {
-        fetch(`http://localhost:6557/todos/${id}`, {
+        fetch(`http://localhost:6557/todos/delete/${id}`, {
             method: "DELETE"
         })
             .then((res) => res.json())
