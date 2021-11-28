@@ -28,6 +28,7 @@ const Header = () => {
 
       </>
     );
+    //Сам Header вместе с инпутом
   };
 //поиск должен происходить тут
 export default Header;
