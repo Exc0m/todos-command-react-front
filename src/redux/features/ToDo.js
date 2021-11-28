@@ -15,6 +15,11 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 categories: action.payload
             }
+        case "todo/delete/fulfilled": //кейс для удаления тудушки
+            return {
+                ...state,
+                todo: state.todo.filter((item) => item.id !== action.payload)
+            }
         default: {
             return state
         }
@@ -24,7 +29,7 @@ export const reducer = (state = initialState, action) => {
 
 export const fetchTodos = () => {
     return (dispatch) => {
-        fetch("http://localhost:5500/todos")
+        fetch("http://localhost:5000/todos")
         .then((res) => res.json())
         .then((data) => {
             console.log(data)
@@ -35,11 +40,26 @@ export const fetchTodos = () => {
 
 export const fetchCategories = () => {
     return (dispatch) => {
-        fetch("http://localhost:5500/categories")
+        fetch("http://localhost:5000/categories")
         .then((res) => res.json())
         .then((data) => {
             console.log(data)
             dispatch({type: "categories/fetch/fulfilled", payload: data})
+        })
+    }
+}
+
+export const deleteTodo = (_id) => {   // удаление тудушки
+    return (dispatch) => {
+        fetch(`http://localhost:5500/todos/${_id}`, {
+            method: "DELETE"
+        })
+        .then((res) => res.json())
+        .then((json) => {
+            dispatch({
+                type: "todo/delete/fulfilled",
+                payload: _id
+            })
         })
     }
 }
