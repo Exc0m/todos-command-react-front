@@ -1,7 +1,7 @@
 const initialState = {
-    todo: [],
-    categories: []
-};
+  todo: [],
+  categories: [],
+}
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -24,18 +24,16 @@ export const reducer = (state = initialState, action) => {
             return state
         }
     }
-
 }
 
 export const fetchTodos = () => {
-    return (dispatch) => {
-        fetch("http://localhost:5000/todos")
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data)
-            dispatch({type: "todo/fetch/fulfilled", payload: data})
-        })
-    }
+  return (dispatch) => {
+    fetch("http://localhost:5000/todos")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: "todo/fetch/fulfilled", payload: data })
+      })
+  }
 }
 
 export const fetchCategories = () => {
@@ -60,5 +58,5 @@ export const deleteTodo = (id) => {   // удаление тудушки
                 payload: id
             })
         })
-    }
+      }
 }
