@@ -15,15 +15,15 @@ const ToDos = () => {
     dispatch(fetchCategories()); //вывод категорий
   }, []);
   return (
-    <div>
+    <div style={{display: "flex"}}>
       {category.map((todo) => {
         return (
           <div className="row">
             <div className="col border-top-5">
-              <div className="card " style="min-height: 300px;">
+              <div className="card "  style={{minHeight: "300px"}}>
                 <h5 className="card-header text-center">{todo.name}</h5>
                 <div className="card-body">
-                  <ToDo id={todo._id}/>
+                  {/*<ToDo id={todo._id}/>*/}
                 </div>
               </div>
             </div>

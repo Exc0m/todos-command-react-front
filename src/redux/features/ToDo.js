@@ -24,7 +24,7 @@ export const reducer = (state = initialState, action) => {
 
 export const fetchTodos = () => {
     return (dispatch) => {
-        fetch("http://localhost:5500/todos")
+        fetch("http://localhost:5000/todos")
         .then((res) => res.json())
         .then((data) => {
             console.log(data)
@@ -35,7 +35,7 @@ export const fetchTodos = () => {
 
 export const fetchCategories = () => {
     return (dispatch) => {
-        fetch("http://localhost:5500/categories")
+        fetch("http://localhost:5000/categories")
         .then((res) => res.json())
         .then((data) => {
             console.log(data)
