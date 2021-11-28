@@ -2,12 +2,16 @@ import React from "react"
 import { useSelector } from "react-redux"
 
 const ToDo = ({ id }) => {
+
+  const search = useSelector((state => state.search))
+
   const todos = useSelector((state) => state.todo)
 
-  console.log(todos)
+
 
   return todos.map((todo) =>
-    todo.category === id ? (
+    todo.category === id && (todo.text.toLowerCase().includes(search.toLowerCase()))? (
+
       <div className="row g-0 mb-1">
         <div
           className={
@@ -40,7 +44,9 @@ const ToDo = ({ id }) => {
                 </div>
               </div>
               {/* Кнопка для удаления(для Али) */}
-              <span type="button" className="btn-outline-danger btn-sm">
+              <span
+                  type="button"
+                  className="btn-outline-danger btn-sm">
                 <i className="bi bi-trash" />
               </span>
             </div>

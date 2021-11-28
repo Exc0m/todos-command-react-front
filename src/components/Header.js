@@ -1,23 +1,18 @@
 import React from 'react';
 import {useState} from 'react'
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {searchTodo} from "../redux/features/ToDo";
 
 const Header = () => {
 
     const todos = useSelector(state => state.todo)
+    const text = useSelector(state => state.search)
 
-    const [text, setText] = useState("")
-  
+    const dispatch = useDispatch()
+
     const handleFind = (e) => {
-      setText(e.target.value)
+        dispatch(searchTodo(e))
     }
-  
-    const filteredTodos = todos.filter(todo => {
-     return todo.text.toLowerCase().includes(text.toLowerCase())
-    })
-
-    //filteredTodos - этот массив должен использоваться для выведения тудушек чтобы поиск заработал
-  
     return (<>
       <nav className="navbar navbar-light bg-secondary row " style={{height: "60px"}}>
         <div className="col-6 m-auto p-2">
@@ -27,7 +22,7 @@ const Header = () => {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                  onChange={handleFind}
+                  onChange={(e)=> handleFind(e.target.value)}
                   value={text}/>
         </div>
       </nav>

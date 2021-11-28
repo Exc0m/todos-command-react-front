@@ -1,6 +1,7 @@
 const initialState = {
   todo: [],
   categories: [],
+    search: ""
 }
 
 export const reducer = (state = initialState, action) => {
@@ -20,6 +21,11 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 todo: state.todo.filter((item) => item.id !== action.payload)
             }
+        case "todo/search/fulfilled":
+            return {
+                ...state, search: action.payload
+            }
+
         default: {
             return state
         }
@@ -59,4 +65,13 @@ export const deleteTodo = (id) => {   // удаление тудушки
             })
         })
       }
+}
+
+export const searchTodo = (text) => {
+    return (dispatch) => {
+        dispatch({
+            type: "todo/search/fulfilled",
+            payload: text
+        })
+    }
 }

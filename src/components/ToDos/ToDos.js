@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchCategories, fetchTodos } from "../../redux/features/ToDo"
 
 const ToDos = () => {
-  const category = useSelector((state) => state.categories)
 
+  const category = useSelector((state) => state.categories)
 
   return (
     <div style={{display: "flex"}} >
