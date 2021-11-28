@@ -19,10 +19,16 @@ const Header = () => {
     //filteredTodos - этот массив должен использоваться для выведения тудушек чтобы поиск заработал
   
     return (<>
-      <nav className="navbar navbar-light bg-secondary row ">
+      <nav className="navbar navbar-light bg-secondary row " style={{height: "60px"}}>
         <div className="col-6 m-auto p-2">
-              <input className="form-control p-3" type="search" placeholder="Search"
-                     aria-label="Search" onChange={handleFind} value={text}/>
+              <input
+                  style={{height: "30px"}}
+                  className="form-control p-3"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  onChange={handleFind}
+                  value={text}/>
         </div>
       </nav>
 

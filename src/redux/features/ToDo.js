@@ -8,7 +8,7 @@ export const reducer = (state = initialState, action) => {
         case "todo/fetch/fulfilled":
             return {
                 ...state,
-                todos: action.payload
+                todo: action.payload
             }
         case "categories/fetch/fulfilled":
             return {
@@ -43,22 +43,21 @@ export const fetchCategories = () => {
         fetch("http://localhost:5000/categories")
         .then((res) => res.json())
         .then((data) => {
-            console.log(data)
             dispatch({type: "categories/fetch/fulfilled", payload: data})
         })
     }
 }
 
-export const deleteTodo = (_id) => {   // удаление тудушки
+export const deleteTodo = (id) => {   // удаление тудушки
     return (dispatch) => {
-        fetch(`http://localhost:5500/todos/${_id}`, {
+        fetch(`http://localhost:5500/todos/${id}`, {
             method: "DELETE"
         })
         .then((res) => res.json())
         .then((json) => {
             dispatch({
                 type: "todo/delete/fulfilled",
-                payload: _id
+                payload: id
             })
         })
     }

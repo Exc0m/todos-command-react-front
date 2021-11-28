@@ -15,10 +15,10 @@ const ToDos = () => {
     dispatch(fetchCategories()); //вывод категорий
   }, []);
   return (
-    <div style={{display: "flex"}}>
+    <div style={{display: "flex"}} >
       {category.map((todo) => {
         return (
-          <div className="row">
+          <div className="row g-0 p-10" style={{width: "25%"}}>
             <div className="col border-top-5">
               <div className="card "  style={{minHeight: "300px"}}>
                 <h5 className="card-header text-center">{todo.name}</h5>
