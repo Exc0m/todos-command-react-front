@@ -1,23 +1,23 @@
-import React from "react"
-import { useDispatch, useSelector } from "react-redux"
-import {deleteTodo, statusChange} from "../../redux/features/ToDo"
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteTodo, statusChange } from "../../redux/features/ToDo";
 
 const ToDo = ({ id }) => {
+  const search = useSelector((state) => state.search);
 
-  const search = useSelector((state => state.search))
+  const todos = useSelector((state) => state.todo);
+  const categories = useSelector((state) => state.categories);
+  const dispatch = useDispatch();
 
-  const todos = useSelector((state) => state.todo)
-  const categories = useSelector((state) => state.categories)
-  const dispatch = useDispatch()
+  const handleEdit = () => alert();
 
-  const handleEdit = () => alert()
+  const handleChange = (todoId, catId) => dispatch(statusChange(todoId, catId));
 
-  const handleChange = (todoId, catId) => dispatch(statusChange(todoId, catId))
-
-  const handleDelete = (id) => dispatch(deleteTodo(id))
+  const handleDelete = (id) => dispatch(deleteTodo(id));
 
   return todos.map((todo) =>
-    todo.category === id && (todo.text.toLowerCase().includes(search.toLowerCase()))? (
+    todo.category === id &&
+    todo.text.toLowerCase().includes(search.toLowerCase()) ? (
       <div className="row g-0 mb-1 " key={todo._id}>
         <div
           className={
@@ -120,11 +120,10 @@ const ToDo = ({ id }) => {
 
               {/* Кнопка для удаления(для Али) */}
               <span
-                  type="button"
-                  className="btn-outline-danger btn-sm "
-                  onClick={() => handleDelete(todo._id)}
+                type="button"
+                className="btn-outline-danger btn-sm "
+                onClick={() => handleDelete(todo._id)}
               >
-
                 <i className="bi bi-trash" />
               </span>
             </div>
@@ -134,7 +133,7 @@ const ToDo = ({ id }) => {
     ) : (
       ""
     )
-  )
-}
+  );
+};
 //здесь должны быть карты Сатуева и перебор массива по ID который передали с помощью пропса
-export default ToDo
+export default ToDo;

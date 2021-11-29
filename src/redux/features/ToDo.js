@@ -1,8 +1,8 @@
 const initialState = {
   todo: [],
   categories: [],
-    search: ""
-}
+  search: "",
+};
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -10,17 +10,17 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         todo: action.payload,
-      }
+      };
     case "categories/fetch/fulfilled":
       return {
         ...state,
         categories: action.payload,
-      }
+      };
     case "todo/delete/fulfilled": //кейс для удаления тудушки
       return {
         ...state,
         todo: state.todo.filter((item) => item._id !== action.payload),
-      }
+      };
 
     case "todos/changing":
       return {
@@ -30,11 +30,11 @@ export const reducer = (state = initialState, action) => {
             return {
               ...item,
               changing: true,
-            }
+            };
           }
-          return item
+          return item;
         }),
-      }
+      };
 
     case "todo/statusChange":
       return {
@@ -45,63 +45,66 @@ export const reducer = (state = initialState, action) => {
               ...item,
               category: action.payload.catId,
               changing: false,
-            }
+            };
           }
-          return item
+          return item;
         }),
-      }
-        case "todo/search/fulfilled":
-            return {
-                ...state, search: action.payload
-            }
-        case "todo/add/fulfilled":
-            return {
-                ...state, todo: [...state.todo, action.payload]
-            }
-        default: {
-            return state
-        }
+      };
+    case "todo/search/fulfilled":
+      return {
+        ...state,
+        search: action.payload,
+      };
+    case "todo/add/fulfilled":
+      return {
+        ...state,
+        todo: [...state.todo, action.payload],
+      };
+    default: {
+      return state;
     }
-}
+  }
+};
 
 export const fetchTodos = () => {
   return (dispatch) => {
     fetch("http://localhost:6557/todos")
       .then((res) => res.json())
       .then((data) => {
-        dispatch({ type: "todo/fetch/fulfilled", payload: data })
-      })
-  }
-}
+        dispatch({ type: "todo/fetch/fulfilled", payload: data });
+      });
+  };
+};
 
 export const fetchCategories = () => {
-    return (dispatch) => {
-        fetch("http://localhost:6557/categories")
-        .then((res) => res.json())
-        .then((data) => {
-            dispatch({type: "categories/fetch/fulfilled", payload: data})
-        })
-    }
-}
+  return (dispatch) => {
+    fetch("http://localhost:6557/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: "categories/fetch/fulfilled", payload: data });
+      });
+  };
+};
 
-export const deleteTodo = (id) => {   // удаление тудушки
-    return (dispatch) => {
-        fetch(`http://localhost:6557/todos/delete/${id}`, {
-            method: "DELETE"
-        })
-            .then((res) => res.json())
-            .then((data)=> {
-                dispatch({
-                    type: "todo/delete/fulfilled",
-                    payload: id
-                })
-            })
-  }
-}
+export const deleteTodo = (id) => {
+  // удаление тудушки
+  return (dispatch) => {
+    fetch(`http://localhost:6557/todos/delete/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: "todo/delete/fulfilled",
+          payload: id,
+        });
+      });
+  };
+};
 
 export const statusChange = (todoId, catId) => {
   return (dispatch) => {
-    dispatch({ type: "todos/changing", payload: todoId })
+    dispatch({ type: "todos/changing", payload: todoId });
 
     fetch(`http://localhost:6557/todos/update/${todoId}`, {
       method: "PATCH",
@@ -113,34 +116,35 @@ export const statusChange = (todoId, catId) => {
         dispatch({
           type: "todo/statusChange",
           payload: { todoId, catId },
-        })
-      })
-  }
-}
+        });
+      });
+  };
+};
 
-export const searchTodo = (text) => { // поиск
-    return (dispatch) => {
-        dispatch({
-            type: "todo/search/fulfilled",
-            payload: text
-        })
-    }
-}
+export const searchTodo = (text) => {
+  // поиск
+  return (dispatch) => {
+    dispatch({
+      type: "todo/search/fulfilled",
+      payload: text,
+    });
+  };
+};
 export const addToDo = (ToDo) => {
-    return (dispatch) => {
-        fetch("http://localhost:6557/todos/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ text: ToDo.text, priority: ToDo.priority}),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                dispatch({
-                    type: "todo/add/fulfilled",
-                    payload: data,
-                });
-            });
-    };
+  return (dispatch) => {
+    fetch("http://localhost:6557/todos/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: ToDo.text, priority: ToDo.priority }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: "todo/add/fulfilled",
+          payload: data,
+        });
+      });
+  };
 };
